@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,92 +7,113 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <!-- Fundo do espaço -->
-    <div id="espaco-quiz">
-        <div class="estrela"></div>
-        <div class="estrela"></div>
-        <div class="estrela"></div>
-        <div class="estrela"></div>
-        <div class="estrela"></div>
-    </div>
-
-    <!-- Container principal -->
-    <div id="quiz-container">
-        <!-- Tela inicial -->
-        <div id="tela-inicial" class="tela-ativa">
-            <h1 id="titulo-quiz">Quiz Galáctico IA</h1>
-            <p id="subtitulo-quiz">Perguntas únicas geradas por IA a cada missão!</p>
-            <div id="categorias-container">
-                <div class="categoria-tag">🏎️ Fórmula 1</div>
-                <div class="categoria-tag">🌎 Geografia</div>
-                <div class="categoria-tag">🧮 Matemática</div>
-                <div class="categoria-tag">🤔 Charadas</div>
-                <div class="categoria-tag">🎯 Conhecimentos Gerais</div>
-                <div class="categoria-tag">🔬 Ciência</div>
-                <div class="categoria-tag">🎬 Entretenimento</div>
-                <div class="categoria-tag">🏆 Esportes</div>
-            </div>
-            <button id="btn-iniciar" class="botao-quiz">Iniciar Missão IA</button>
-            <div id="status-api" class="status-conexao">
-                🔄 Conectando com a IA...
-            </div>
-        </div>
-
-        <!-- Tela do quiz -->
-        <div id="tela-quiz" class="tela-oculta">
-            <div id="cabecalho-quiz">
-                <div id="contador-perguntas">Pergunta: <span id="numero-pergunta">1</span>/10</div>
-                <div id="categoria-atual">Categoria: <span id="nome-categoria">Carregando...</span></div>
-                <div id="pontuacao-atual">Pontos: <span id="pontos">0</span></div>
+    <div class="quiz-container">
+        <!-- TELA INICIAL -->
+        <div id="telaInicial" class="tela tela-ativa">
+            <h1>Quiz Galáctico IA</h1>
+            <p class="subtitulo">Perguntas únicas geradas por IA a cada missão!</p>
+            
+            <div class="categorias">
+                <div class="categoria">🏎️ Fórmula 1</div>
+                <div class="categoria">🌎 Geografia</div>
+                <div class="categoria">🧮 Matemática</div>
+                <div class="categoria">🤔 Charadas</div>
+                <div class="categoria">🌍 Conhecimentos Gerais</div>
+                <div class="categoria">🔬 Ciência</div>
+                <div class="categoria">🎬 Entretenimento</div>
+                <div class="categoria">⚽ Esportes</div>
             </div>
             
-            <div id="pergunta-container">
-                <h2 id="texto-pergunta">Carregando pergunta...</h2>
-            </div>
+            <button id="btnIniciar" class="btn-iniciar">INICIAR MISSÃO IA</button>
+        </div>
 
-            <div id="opcoes-container">
-                <!-- Opções serão geradas pelo JavaScript -->
-            </div>
-
-            <div id="controles-quiz">
-                <button id="btn-proxima" class="botao-quiz" disabled>Próxima Pergunta</button>
-                <button id="btn-reiniciar" class="botao-quiz secundario">Desistir</button>
+        <!-- TELA LOADING -->
+        <div id="telaLoading" class="tela">
+            <div class="tela-loading">
+                <div class="loader"></div>
+                <h2>Conectando com a IA...</h2>
+                <p id="statusGeracao" class="status-ia">Inicializando sistema...</p>
             </div>
         </div>
 
-        <!-- Tela de resultados -->
-        <div id="tela-resultados" class="tela-oculta">
-            <h2 id="titulo-resultados">Missão Concluída!</h2>
-            <div id="resultado-pontuacao">
-                <span id="pontuacao-final">0</span> pontos
+        <!-- TELA QUIZ -->
+        <div id="telaQuiz" class="tela">
+            <div class="cabecalho-quiz">
+                <div id="categoria" class="categoria-atual">Categoria</div>
+                <div id="contador" class="contador">1/10</div>
             </div>
-            <p id="mensagem-resultado">Sua jornada pelo conhecimento foi incrível!</p>
-            <div id="estatisticas">
-                <div class="estatistica">
-                    <span class="valor-estatistica" id="acertos">0</span>
-                    <span class="rotulo-estatistica">Acertos</span>
-                </div>
-                <div class="estatistica">
-                    <span class="valor-estatistica" id="erros">0</span>
-                    <span class="rotulo-estatistica">Erros</span>
-                </div>
-                <div class="estatistica">
-                    <span class="valor-estatistica" id="percentual">0%</span>
-                    <span class="rotulo-estatistica">Precisão</span>
+            
+            <!-- CRONÔMETRO VISUAL -->
+            <div class="contador-tempo">
+                <span id="contadorTempo">15s</span>
+            </div>
+            <div class="barra-tempo-container">
+                <div id="barraTempo" class="barra-tempo">
+                    <div id="tempoRestante" class="tempo-restante"></div>
                 </div>
             </div>
-            <button id="btn-nova-missao" class="botao-quiz">Nova Missão IA</button>
+            
+            <h2 id="pergunta" class="pergunta">Pergunta carregando...</h2>
+            
+            <div id="opcoes" class="opcoes-container">
+                <!-- Opções serão geradas dinamicamente -->
+            </div>
         </div>
 
-        <!-- Tela de loading -->
-        <div id="tela-loading" class="tela-oculta">
-            <div class="loading-content">
-                <div class="spinner-ia"></div>
-                <h3>IA Gerando Perguntas...</h3>
-                <p id="status-geracao">Criando desafios únicos para você</p>
-                <div class="dicas-ia">
-                    <p>✨ Dica: Cada quiz é único e nunca se repete!</p>
+        <!-- TELA RESULTADO -->
+        <div id="telaResultado" class="tela">
+            <div class="card-resultado">
+                <div class="cabecalho-resultado">
+                    <h2>🎉 Missão Concluída!</h2>
+                    <div class="icone-resultado" id="iconeResultado">🚀</div>
                 </div>
+                
+                <div class="estatisticas">
+                    <div class="estatistica-item">
+                        <span class="estatistica-label">Pontuação</span>
+                        <span class="estatistica-valor" id="pontuacaoFinal">0/0</span>
+                    </div>
+                    <div class="estatistica-item">
+                        <span class="estatistica-label">Questões Erradas</span>
+                        <span class="estatistica-valor" id="questoesErradas">0</span>
+                    </div>
+                    <div class="estatistica-item">
+                        <span class="estatistica-label">Desempenho</span>
+                        <span class="estatistica-valor" id="porcentagemFinal">0%</span>
+                    </div>
+                </div>
+
+                <div class="barra-desempenho-container">
+                    <div class="barra-desempenho">
+                        <div class="barra-desempenho-preenchimento" id="barraDesempenho"></div>
+                    </div>
+                    <div class="rotulos-barra">
+                        <span>0%</span>
+                        <span>50%</span>
+                        <span>100%</span>
+                    </div>
+                </div>
+
+                <div class="mensagem-motivacional" id="mensagemMotivacional">
+                    Mensagem de motivação...
+                </div>
+
+                <div class="detalhes-desempenho">
+                    <div class="detalhe-item">
+                        <span class="detalhe-icone">✅</span>
+                        <span>Respostas corretas: <strong id="corretasCount">0</strong></span>
+                    </div>
+                    <div class="detalhe-item">
+                        <span class="detalhe-icone">❌</span>
+                        <span>Respostas erradas: <strong id="erradasCount">0</strong></span>
+                    </div>
+                    <div class="detalhe-item">
+                        <span class="detalhe-icone">⏱️</span>
+                        <span>Tempo médio por questão: <strong id="tempoMedio">0s</strong></span>
+                    </div>
+                </div>
+
+                <button id="btnNovaMissao" class="btn-nova-missao">🚀 NOVA MISSÃO ESPACIAL</button>
             </div>
         </div>
     </div>
