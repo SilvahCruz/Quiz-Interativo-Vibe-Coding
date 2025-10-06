@@ -15,11 +15,12 @@ const historicoPerguntas = {
     quizAntesDoAnterior: [] // Perguntas usadas no quiz anterior ao último
 };
 
-// ADICIONE ESTAS VARIÁVEIS NO INÍCIO DO JAVASCRIPT
+// Elementos DOM
 const elementos = {
     telaInicial: document.getElementById('telaInicial'),
     telaLoading: document.getElementById('telaLoading'),
     telaQuiz: document.getElementById('telaQuiz'),
+    telaResultado: document.getElementById('telaResultado'),
     btnIniciar: document.getElementById('btnIniciar'),
     statusGeracao: document.getElementById('statusGeracao'),
     perguntaElemento: document.getElementById('pergunta'),
@@ -29,8 +30,6 @@ const elementos = {
     barraTempo: document.getElementById('barraTempo'),
     tempoRestanteElemento: document.getElementById('tempoRestante'),
     contadorTempoElemento: document.getElementById('contadorTempo'),
-    // ... elementos existentes ...
-    telaResultado: document.getElementById('telaResultado'),
     pontuacaoFinal: document.getElementById('pontuacaoFinal'),
     questoesErradas: document.getElementById('questoesErradas'),
     porcentagemFinal: document.getElementById('porcentagemFinal'),
@@ -43,13 +42,14 @@ const elementos = {
     btnNovaMissao: document.getElementById('btnNovaMissao')
 };
 
-// ADICIONE ESTA VARIÁVEL PARA CONTROLAR O TEMPO
+// Variável para controlar o tempo
 let tempoInicioQuiz = null;
 
 // CRIAR ELEMENTOS ESPACIAIS
 function criarElementosEspaciais() {
     const body = document.body;
     
+    // Criar estrelas de fundo
     for (let i = 0; i < 50; i++) {
         const estrela = document.createElement('div');
         estrela.className = 'estrela';
@@ -61,6 +61,7 @@ function criarElementosEspaciais() {
         body.appendChild(estrela);
     }
     
+    // Criar cometas
     for (let i = 0; i < 5; i++) {
         const cometa = document.createElement('div');
         cometa.className = 'cometa';
@@ -70,17 +71,22 @@ function criarElementosEspaciais() {
         body.appendChild(cometa);
     }
     
+    // Criar saturnos flutuantes
     for (let i = 0; i < 3; i++) {
         const saturno = document.createElement('div');
         saturno.className = 'saturno';
         saturno.style.left = Math.random() * 80 + 10 + 'vw';
         saturno.style.top = Math.random() * 80 + 10 + 'vh';
-        saturno.style.animationDelay = Math.random() * 5 + 's';
+        
+        // Animação única para cada saturno
+        saturno.style.animation = `flutuarSaturno ${15 + Math.random() * 10}s infinite ease-in-out`;
+        saturno.style.animationDelay = `${Math.random() * 5}s`;
+        
         body.appendChild(saturno);
     }
 }
 
-// ATUALIZE A FUNÇÃO mostrarTela PARA INCLUIR A TELA DE RESULTADO
+// CONTROLE DE TELAS
 function mostrarTela(nomeTela) {
     elementos.telaInicial.classList.remove('tela-ativa');
     elementos.telaLoading.classList.remove('tela-ativa');
@@ -103,7 +109,7 @@ function mostrarTela(nomeTela) {
     }
 }
 
-// GERADOR DE PERGUNTAS COM SISTEMA DE COOLDOWN E MATEMÁTICA CORRIGIDA
+// GERADOR DE PERGUNTAS
 class GeradorPerguntasIA {
     static async gerarPerguntasUnicas(quantidade = 8) {
         console.log("🚀 IA Gerando perguntas aleatórias...");
@@ -301,7 +307,7 @@ class GeradorPerguntasIA {
                 categoria: "🌎 Geografia"
             },
 
-            // 🧮 MATEMÁTICA CORRIGIDA (15 perguntas)
+            // 🧮 MATEMÁTICA (15 perguntas)
             {
                 pergunta: "Quanto é 15 + 27?",
                 opcoes: ["42", "43", "41", "44"],
@@ -770,7 +776,7 @@ function tempoEsgotado() {
     setTimeout(proximaPergunta, 2000);
 }
 
-// ATUALIZE A FUNÇÃO INICIARQUIZ
+// FUNÇÃO INICIAR QUIZ CORRIGIDA
 async function iniciarQuiz() {
     console.log("🎯 Iniciando missão IA...");
     
@@ -792,8 +798,9 @@ async function iniciarQuiz() {
             await new Promise(resolve => setTimeout(resolve, 1000));
         }
         
+        // Timeout de segurança para evitar carregamento infinito
         const timeout = new Promise((_, reject) => 
-            setTimeout(() => reject(new Error("Timeout na conexão com IA")), 10000)
+            setTimeout(() => reject(new Error("Timeout na conexão com IA")), 5000)
         );
         
         const gerarPerguntas = GeradorPerguntasIA.gerarPerguntasUnicas(8);
@@ -805,16 +812,24 @@ async function iniciarQuiz() {
         
         console.log("✅ Perguntas geradas com sucesso!");
         
+        // Resetar estado do quiz
         estadoQuiz.perguntaAtual = 0;
         estadoQuiz.pontuacao = 0;
+        estadoQuiz.quizFinalizado = false;
+        
         mostrarTela('quiz');
         mostrarPergunta();
         
     } catch (error) {
         console.error("💥 Erro:", error);
-        mostrarTela('inicial');
+        // Restaurar estado do botão
         elementos.btnIniciar.disabled = false;
         elementos.btnIniciar.textContent = "TENTAR NOVAMENTE";
+        
+        // Voltar para tela inicial
+        mostrarTela('inicial');
+        
+        // Mostrar mensagem de erro
         alert("🚨 Falha na conexão com IA! Verifique sua conexão e tente novamente.");
     }
 }
@@ -878,7 +893,7 @@ function proximaPergunta() {
     }, 500);
 }
 
-// SUBSTITUA A FUNÇÃO finalizarQuiz POR ESTA:
+// FUNÇÃO FINALIZAR QUIZ
 function finalizarQuiz() {
     const totalPerguntas = estadoQuiz.perguntas.length;
     const corretas = estadoQuiz.pontuacao;
@@ -936,18 +951,23 @@ function finalizarQuiz() {
     }, 500);
 }
 
-// ADICIONE ESTE EVENT LISTENER NO final do DOMContentLoaded
+// INICIALIZAÇÃO
 document.addEventListener('DOMContentLoaded', function() {
     console.log("🛸 Quiz Galáctico IA pronto!");
     criarElementosEspaciais();
     
+    // Verificar se elementos existem
     if (!elementos.btnIniciar) {
         console.error("❌ Elementos DOM não encontrados!");
         return;
     }
     
+    // Event listeners
     elementos.btnIniciar.addEventListener('click', iniciarQuiz);
     elementos.btnNovaMissao.addEventListener('click', () => {
+        // Resetar estado do botão
+        elementos.btnIniciar.disabled = false;
+        elementos.btnIniciar.textContent = "INICIAR MISSÃO IA";
         mostrarTela('inicial');
     });
     

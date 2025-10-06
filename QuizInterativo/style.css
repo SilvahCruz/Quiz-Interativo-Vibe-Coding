@@ -606,40 +606,35 @@ body {
     box-shadow: 0 8px 30px rgba(255, 107, 0, 0.6);
 }
 
-/* RESPONSIVO PARA RESULTADO */
-@media (max-width: 768px) {
-    .card-resultado {
-        padding: 30px 20px;
-    }
-    
-    .cabecalho-resultado h2 {
-        font-size: 1.8em;
-    }
-    
-    .estatisticas {
-        grid-template-columns: 1fr;
-        gap: 15px;
-    }
-    
-    .estatistica-item {
-        padding: 15px 10px;
-    }
-    
-    .estatistica-valor {
-        font-size: 1.5em;
-    }
-    
-    .mensagem-motivacional {
-        font-size: 1.1em;
-        padding: 15px;
-    }
-    
-    .btn-nova-missao {
-        padding: 15px 30px;
-        font-size: 1.1em;
-    }
-    
-    .icone-resultado {
-        font-size: 3em;
-    }
+/* TELA RESULTADO - VERSÃO COMPACTA */
+.card-resultado {
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(20px);
+    border-radius: 20px;
+    padding: 25px 20px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+    text-align: center;
+    animation: slideInUp 0.6s ease-out;
+    max-width: 450px;
+    margin: 0 auto;
+}
+
+.cabecalho-resultado {
+    margin-bottom: 20px;
+}
+
+.cabecalho-resultado h2 {
+    font-size: 1.8em;
+    margin-bottom: 10px;
+    background: linear-gradient(45deg, #ffd700, #ff6b00, #9f7aea);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.icone-resultado {
+    font-size: 3em;
+    margin: 5px 0;
+    animation: bounce 2s;
 }
